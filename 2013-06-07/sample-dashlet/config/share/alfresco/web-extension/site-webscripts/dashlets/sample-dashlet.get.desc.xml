@@ -1,0 +1,6 @@
+<webscript>
+	<shortname>Sample Dashlet</shortname>
+	<description></description>
+	<family>dashlet</family>
+	<url>/components/dashlets/sample-dashlet</url>
+</webscript>
