@@ -19,6 +19,9 @@ print( "Dest: " + dstList.properties.title );
 for each( item in srcList.children )
 {
 	var node = dstList.createNode(null, "alvexcourse_docs:document_partner_agreement");
+	for (assoc in item.assocs)
+		for each(i in item.assocs[assoc])
+			node.createAssociation(i, assoc );
 	for(prop in item.properties)
 		node.properties[prop] = item.properties[prop];
 	node.save();
