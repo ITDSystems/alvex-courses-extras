@@ -91,7 +91,7 @@
       </forms>
    </config>
 
-   <config evaluator="node-type" condition="alvexdt:agreement">
+   <config evaluator="node-type" condition="alvexcourse_docs:document_partner_agreement">
       <forms>
          <form>
             <field-visibility>
