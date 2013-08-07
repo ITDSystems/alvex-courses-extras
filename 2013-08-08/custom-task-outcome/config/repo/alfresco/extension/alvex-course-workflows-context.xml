@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+<beans>
+	<bean id="alvex-course-workflows-wd" parent="workflowDeployer">
+		<!-- Register workflows -->
+		<property name="workflowDefinitions">
+			<list>
+				<props>
+					<prop key="engineId">activiti</prop>
+					<prop key="location">alfresco/extension/workflows/alvex-course-workflow.bpmn20.xml</prop>
+					<prop key="mimetype">text/xml</prop>
+					<prop key="redeploy">true</prop>
+				</props>
+			</list>
+		</property>
+		<!-- Register models -->
+		<property name="models">
+			<list>
+				<value>alfresco/extension/models/alvex-course-workflows-task-model.xml</value>
+			</list>
+		</property>
+		<!-- Register message bundles -->
+		<property name="labels">
+			<list>
+				<value>alfresco.extension.messages.alvex-course-workflows</value>
+			</list>
+		</property>
+	</bean>
+</beans>

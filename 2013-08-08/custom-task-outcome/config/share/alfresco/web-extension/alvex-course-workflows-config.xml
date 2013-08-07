@@ -1,0 +1,65 @@
+<alfresco-config>
+
+	<config evaluator="string-compare" condition="activiti$alvex-course-workflow">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="bpm:workflowDescription" />
+					<show id="bpm:workflowDueDate" />
+					<show id="packageItems" />
+				</field-visibility>
+				<appearance>
+					<set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+					<set id="items" appearance="title" label-id="workflow.set.items" />
+					<field id="bpm:workflowDescription" label-id="workflow.field.message" set="info" />
+					<field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+					<field id="packageItems" set="items" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<config evaluator="task-type" condition="alvexcourse:submitTask">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="bpm:workflowDescription" />
+					<show id="bpm:workflowDueDate" />
+					<show id="packageItems" />
+				</field-visibility>
+				<appearance>
+					<set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+					<set id="items" appearance="title" label-id="workflow.set.items" />
+					<field id="bpm:workflowDescription" label-id="workflow.field.message" set="info" />
+					<field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+					<field id="packageItems" set="items" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<config evaluator="task-type" condition="alvexcourse:approveTask">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="bpm:workflowDescription" />
+					<show id="bpm:workflowDueDate" />
+					<show id="packageItems" />
+					<show id="alvexcourse:okOutcome" />
+				</field-visibility>
+				<appearance>
+					<set id="info" appearance="" template="/org/alfresco/components/form/2-column-set.ftl" />
+					<set id="items" appearance="title" label-id="workflow.set.items" />
+					<set id="response" appearance="" />
+					<field id="bpm:workflowDescription" label-id="workflow.field.message" set="info" />
+					<field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
+					<field id="packageItems" set="items" />
+					<field id="alvexcourse:okOutcome" set="response">
+						<control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+</alfresco-config>
