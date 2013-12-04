@@ -18,12 +18,22 @@
 		<namespace uri="http://alvexcore.com/prefix/alvexcourse_docs" prefix="alvexcourse_docs"/>
 	</namespaces>
 
+	<constraints>
+		<constraint name="alvexcourse_docs:discountConstraint" type="MINMAX">
+			<parameter name="minValue"><value>5</value></parameter>
+			<parameter name="maxValue"><value>25</value></parameter>
+		</constraint>
+	</constraints>
+
 	<types>
 		<type name="alvexcourse_docs:document_partner_agreement">
 			<parent>alvexdt:agreement</parent>
 			<properties>
 				<property name="alvexcourse_docs:partnerDiscount">
 					<type>d:int</type>
+					<constraints>
+						<constraint ref="alvexcourse_docs:discountConstraint"/>
+					</constraints>
 				</property>
 			</properties>
 
