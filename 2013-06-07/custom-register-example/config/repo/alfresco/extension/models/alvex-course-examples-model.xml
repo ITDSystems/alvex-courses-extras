@@ -46,9 +46,8 @@
 					<target>
 						<class>cm:person</class>
 					</target>
-					<duplicate>false<duplicate>
 				</association>
-</associations>
+			</associations>
 
 			<mandatory-aspects>
 				<aspect>alvexcourse_docs:withVendorInfo</aspect>
