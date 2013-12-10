@@ -36,6 +36,19 @@
 					</constraints>
 				</property>
 			</properties>
+			<associations>
+				<association name="alvexcourse_docs:contractManager">
+					<title>Contract Manager</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</source>
+					<target>
+						<class>cm:person</class>
+					</target>
+					<duplicate>false<duplicate>
+				</association>
+</associations>
 
 			<mandatory-aspects>
 				<aspect>alvexcourse_docs:withVendorInfo</aspect>

@@ -37,7 +37,7 @@
             <appearance>
                <set id="id" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
                <set id="company" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
-               <set id="vendor" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
+               <set id="vendor" appearance="" label="" template="/org/alfresco/components/form/2-column-set.ftl"/>
                <set id="date" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
                <set id="renew"/>
                <set id="summary" appearance="" label="" />
@@ -56,11 +56,19 @@
                <field set="company" id="alvexdt:contractor">
                   <control template="/alvex-masterData-select.ftl"/>
                </field>
-               <field set="company" id="alvexdt:documentManager">
+               <field set="company" id="alvexcourse_docs:vendorCompanyName">
                   <control template="/orgchart-picker.ftl" />
                </field>
-               <field set="vendor" id="alvexcourse_docs:vendorCompanyName" />
-               <field set="vendor" id="alvexcourse_docs:vendorWebSite" />
+               <field set="vendor" id="alvexcourse_docs:vendorCompanyName" >
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl">
+                     <control-param name="style">width: 98%</control-param>
+                  </control>
+               </field>
+               <field set="vendor" id="alvexcourse_docs:vendorWebSite" >
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl">
+                     <control-param name="style">width: 98%</control-param>
+                  </control>
+               </field>
                <field set="vendor" id="alvexcourse_docs:partnerDiscount" />
                <field set="date" id="alvexdt:signingDate"/>
                <field set="date" id="alvexdt:expiryDate"/>
