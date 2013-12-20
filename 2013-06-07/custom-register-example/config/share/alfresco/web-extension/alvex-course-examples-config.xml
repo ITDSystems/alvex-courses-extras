@@ -1,14 +1,14 @@
 <alfresco-config>
 
-   <config evaluator="model-type" condition="alvexcourse_docs:document_partner_agreement">
+   <config evaluator="model-type" condition="alvexcoursedocs:document_partner_agreement">
       <forms>
          <form id="datagrid">
             <field-visibility>
                <show id="alvexdt:id" />
                <show id="alvexdt:company" />
                <show id="alvexdt:contractor" />
-               <show id="alvexcourse_docs:vendorCompanyName" />
-               <show id="alvexcourse_docs:partnerDiscount" />
+               <show id="alvexcoursedocs:vendorCompanyName" />
+               <show id="alvexcoursedocs:partnerDiscount" />
                <show id="alvexdt:signingDate" />
                <show id="alvexdt:expiryDate" />
             </field-visibility>
@@ -22,10 +22,10 @@
                <show id="alvexdt:agreementSummary" />
                <show id="alvexdt:contractor" />
                <show id="alvexdt:relatedDocuments" />
-               <show id="alvexdt:documentManager" />
-               <show id="alvexcourse_docs:vendorCompanyName" />
-               <show id="alvexcourse_docs:vendorWebSite" />
-               <show id="alvexcourse_docs:partnerDiscount" />
+               <show id="alvexcoursedocs:contractManager" />
+               <show id="alvexcoursedocs:vendorCompanyName" />
+               <show id="alvexcoursedocs:vendorWebSite" />
+               <show id="alvexcoursedocs:partnerDiscount" />
                <show id="alvexdt:signingDate" />
                <show id="alvexdt:expiryDate" />
                <show id="alvexdt:signatory" />
@@ -46,7 +46,9 @@
                <field set="id" id="alvexdt:id">
                   <control template="/alvex-auto-numberer.ftl"/>
                </field>
-               <field set="id" id="alvexdt:registerDate"/>
+               <field set="id" id="alvexdt:registerDate">
+                  <control template="/alvex-autodate.ftl"/>
+               </field>
                <field set="id" id="alvexdt:agreementType">
                   <control template="/alvex-masterData-select.ftl"/>
                </field>
@@ -56,20 +58,20 @@
                <field set="company" id="alvexdt:contractor">
                   <control template="/alvex-masterData-select.ftl"/>
                </field>
-               <field set="company" id="alvexcourse_docs:vendorCompanyName">
+               <field set="company" id="alvexcoursedocs:contractManager">
                   <control template="/orgchart-picker.ftl" />
                </field>
-               <field set="vendor" id="alvexcourse_docs:vendorCompanyName" >
+               <field set="vendor" id="alvexcoursedocs:vendorCompanyName" >
                   <control template="/org/alfresco/components/form/controls/textfield.ftl">
                      <control-param name="style">width: 98%</control-param>
                   </control>
                </field>
-               <field set="vendor" id="alvexcourse_docs:vendorWebSite" >
+               <field set="vendor" id="alvexcoursedocs:vendorWebSite" >
                   <control template="/org/alfresco/components/form/controls/textfield.ftl">
                      <control-param name="style">width: 98%</control-param>
                   </control>
                </field>
-               <field set="vendor" id="alvexcourse_docs:partnerDiscount" />
+               <field set="vendor" id="alvexcoursedocs:partnerDiscount" />
                <field set="date" id="alvexdt:signingDate"/>
                <field set="date" id="alvexdt:expiryDate"/>
                <field set="date" id="alvexdt:signatory">
@@ -99,7 +101,7 @@
       </forms>
    </config>
 
-   <config evaluator="node-type" condition="alvexcourse_docs:document_partner_agreement">
+   <config evaluator="node-type" condition="alvexcoursedocs:document_partner_agreement">
       <forms>
          <form>
             <field-visibility>
@@ -110,10 +112,10 @@
                <show id="alvexdt:agreementSummary" />
                <show id="alvexdt:contractor" />
                <show id="alvexdt:relatedDocuments" />
-               <show id="alvexdt:documentManager" />
-               <show id="alvexcourse_docs:vendorCompanyName" />
-               <show id="alvexcourse_docs:vendorWebSite" />
-               <show id="alvexcourse_docs:partnerDiscount" />
+               <show id="alvexcoursedocs:contractManager" />
+               <show id="alvexcoursedocs:vendorCompanyName" />
+               <show id="alvexcoursedocs:vendorWebSite" />
+               <show id="alvexcoursedocs:partnerDiscount" />
                <show id="alvexdt:signingDate" />
                <show id="alvexdt:expiryDate" />
                <show id="alvexdt:signatory" />
@@ -134,7 +136,9 @@
                <field set="id" id="alvexdt:id">
                   <control template="/alvex-auto-numberer.ftl"/>
                </field>
-               <field set="id" id="alvexdt:registerDate"/>
+               <field set="id" id="alvexdt:registerDate">
+                  <control template="/alvex-autodate.ftl"/>
+               </field>
                <field set="id" id="alvexdt:agreementType">
                   <control template="/alvex-masterData-select.ftl"/>
                </field>
@@ -144,12 +148,12 @@
                <field set="company" id="alvexdt:contractor">
                   <control template="/alvex-masterData-select.ftl"/>
                </field>
-               <field set="company" id="alvexdt:documentManager">
+               <field set="company" id="alvexcoursedocs:contractManager">
                   <control template="/orgchart-picker.ftl" />
                </field>
-               <field set="vendor" id="alvexcourse_docs:vendorCompanyName" />
-               <field set="vendor" id="alvexcourse_docs:vendorWebSite" />
-               <field set="vendor" id="alvexcourse_docs:partnerDiscount" />
+               <field set="vendor" id="alvexcoursedocs:vendorCompanyName" />
+               <field set="vendor" id="alvexcoursedocs:vendorWebSite" />
+               <field set="vendor" id="alvexcoursedocs:partnerDiscount" />
                <field set="date" id="alvexdt:signingDate"/>
                <field set="date" id="alvexdt:expiryDate"/>
                <field set="date" id="alvexdt:signatory">

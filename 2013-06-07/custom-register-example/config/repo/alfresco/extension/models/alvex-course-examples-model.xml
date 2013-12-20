@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <model 
-	name="alvexcourse_docs:documents_model"
+	name="alvexcoursedocs:documents_model"
 	xmlns="http://www.alfresco.org/model/dictionary/1.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.alfresco.org/model/dictionary/1.0 modelSchema.xsd">
@@ -15,29 +15,29 @@
 	</imports>
 	
 	<namespaces>
-		<namespace uri="http://alvexcore.com/prefix/alvexcourse_docs" prefix="alvexcourse_docs"/>
+		<namespace uri="http://alvexcore.com/prefix/alvexcoursedocs" prefix="alvexcoursedocs"/>
 	</namespaces>
 
 	<constraints>
-		<constraint name="alvexcourse_docs:discountConstraint" type="MINMAX">
+		<constraint name="alvexcoursedocs:discountConstraint" type="MINMAX">
 			<parameter name="minValue"><value>5</value></parameter>
 			<parameter name="maxValue"><value>25</value></parameter>
 		</constraint>
 	</constraints>
 
 	<types>
-		<type name="alvexcourse_docs:document_partner_agreement">
+		<type name="alvexcoursedocs:document_partner_agreement">
 			<parent>alvexdt:agreement</parent>
 			<properties>
-				<property name="alvexcourse_docs:partnerDiscount">
+				<property name="alvexcoursedocs:partnerDiscount">
 					<type>d:int</type>
 					<constraints>
-						<constraint ref="alvexcourse_docs:discountConstraint"/>
+						<constraint ref="alvexcoursedocs:discountConstraint"/>
 					</constraints>
 				</property>
 			</properties>
 			<associations>
-				<association name="alvexcourse_docs:contractManager">
+				<association name="alvexcoursedocs:contractManager">
 					<title>Contract Manager</title>
 					<source>
 						<mandatory>false</mandatory>
@@ -50,15 +50,15 @@
 			</associations>
 
 			<mandatory-aspects>
-				<aspect>alvexcourse_docs:withVendorInfo</aspect>
+				<aspect>alvexcoursedocs:withVendorInfo</aspect>
 			</mandatory-aspects>
 		</type>		
 	</types>
 
 	<aspects>
-		<aspect name="alvexcourse_docs:withVendorInfo">
+		<aspect name="alvexcoursedocs:withVendorInfo">
 			<properties>
-				<property name="alvexcourse_docs:vendorCompanyName">
+				<property name="alvexcoursedocs:vendorCompanyName">
 					<type>d:text</type>
 					<index enabled="true">
 						<atomic>true</atomic>
@@ -66,7 +66,7 @@
 						<tokenised>both</tokenised>
 					</index>
 				</property>
-				<property name="alvexcourse_docs:vendorWebSite">
+				<property name="alvexcoursedocs:vendorWebSite">
 					<type>d:text</type>
 					<index enabled="true">
 						<atomic>true</atomic>
