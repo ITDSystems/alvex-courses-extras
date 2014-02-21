@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+
+	<bean id="remoteService" parent="baseJavaScriptExtension" class="com.alvexcore.repo.jscript.RemoteService">
+		<property name="extensionName">
+			<value>remoteService</value>
+		</property>
+		<property name="ScriptRemote" ref="webscripts.script.remote"/>
+	</bean>
+
+	<bean id="templateActionModelFactory" class="org.alfresco.repo.action.scheduled.FreeMarkerWithLuceneExtensionsModelFactory">
+		<property name="serviceRegistry">
+			<ref bean="ServiceRegistry"/>
+		</property>
+	</bean>
+
+	<bean id="runScriptAction" class="org.alfresco.repo.action.scheduled.SimpleTemplateActionDefinition">
+		<property name="actionName">
+			<value>script</value>
+		</property>
+		<property name="parameterTemplates">
+			<map>
+				<entry>
+					<key>
+						<value>script-ref</value>
+					</key>
+					<!-- PATH points to the script to be executed -->
+					<value>\$\{selectSingleNode('workspace://SpacesStore', 'lucene', 'PATH:"/app:company_home/app:dictionary/app:scripts/cm:send_task_reminders.js"' )\}</value>
+				</entry>
+			</map>
+		</property>
+		<property name="templateActionModelFactory">
+			<ref bean="templateActionModelFactory"/>
+		</property>
+		<property name="dictionaryService">
+			<ref bean="DictionaryService"/>
+		</property>
+		<property name="actionService">
+			<ref bean="ActionService"/>
+		</property>
+		<property name="templateService">
+			<ref bean="TemplateService"/>
+		</property>
+	</bean>
+
+	<bean id="runScript" class="org.alfresco.repo.action.scheduled.CronScheduledQueryBasedTemplateActionDefinition">
+		<property name="transactionMode">
+			<value>UNTIL_FIRST_FAILURE</value>
+		</property>
+		<property name="compensatingActionMode">
+			<value>IGNORE</value>
+		</property>
+		<property name="searchService">
+			<ref bean="SearchService"/>
+		</property>
+		<property name="templateService">
+			<ref bean="TemplateService"/>
+		</property>
+		<property name="queryLanguage">
+			<value>lucene</value>
+		</property>
+		<property name="stores">
+			<list>
+				<value>workspace://SpacesStore</value>
+			</list>
+		</property>
+		<!-- Execute for each person -->
+		<property name="queryTemplate">
+			<value>TYPE:"cm:person"</value>
+		</property>
+		<!-- Start execution at 8:50 a.m. at working days only -->
+		<property name="cronExpression">
+			<value>0 50 8 ? * MON-FRI</value>
+		</property>
+		<property name="jobName">
+			<value>tasksReminder</value>
+		</property>
+		<property name="jobGroup">
+			<value>jobGroup</value>
+		</property>
+		<property name="triggerName">
+			<value>tasksReminderTrigger</value>
+		</property>
+		<property name="triggerGroup">
+			<value>triggerGroup</value>
+		</property>
+		<property name="scheduler">
+			<ref bean="schedulerFactory"/>
+		</property>
+		<property name="actionService">
+			<ref bean="ActionService"/>
+		</property>
+		<property name="templateActionModelFactory">
+			<ref bean="templateActionModelFactory"/>
+		</property>
+		<property name="templateActionDefinition">
+			<ref bean="runScriptAction"/>
+		</property>
+		<property name="transactionService">
+			<ref bean="TransactionService"/>
+		</property>
+		<property name="runAsUser">
+			<value>System</value>
+		</property>
+	</bean>
+</beans>
