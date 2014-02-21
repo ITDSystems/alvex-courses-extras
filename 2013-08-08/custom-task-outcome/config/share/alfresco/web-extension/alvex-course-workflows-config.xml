@@ -45,6 +45,7 @@
 					<show id="bpm:workflowDescription" />
 					<show id="bpm:workflowDueDate" />
 					<show id="packageItems" />
+					<!--show id="transitions" /-->
 					<show id="alvexcourse:okOutcome" />
 				</field-visibility>
 				<appearance>
@@ -54,6 +55,7 @@
 					<field id="bpm:workflowDescription" label-id="workflow.field.message" set="info" />
 					<field id="bpm:workflowDueDate" label-id="workflow.field.due" set="info" />
 					<field id="packageItems" set="items" />
+					<!--field id="transitions" set="response" /-->
 					<field id="alvexcourse:okOutcome" set="response">
 						<control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
 					</field>

@@ -15,7 +15,8 @@
 			<parent>bpm:startTask</parent>
 		</type>
 		<type name="alvexcourse:approveTask">
-			<!-- Parent changed from bpm:workflowTask to bpm:activitiOutcomeTask -->
+			<!--parent>bpm:workflowTask</parent>
+			<Parent changed from bpm:workflowTask to bpm:activitiOutcomeTask -->
 			<parent>bpm:activitiOutcomeTask</parent>
 			<!-- Custom property with constraint that defines possible outcome options -->
 			<properties>
