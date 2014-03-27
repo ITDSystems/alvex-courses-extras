@@ -4,7 +4,7 @@
 var usersToIgnore = ['admin', 'crazyEd'];
 
 // Get dashboard configs for all users
-for each (var node in search.xpathSearch('/app:company_home/st:sites/cm:surf-config/cm:pages/cm:user//.'))
+for each (var node in search.xpathSearch('/app:company_home/st:sites/cm:surf-config/cm:pages/cm:user/*') )
 {
 	// Get name of current user
 	var username = String(node.name);
