@@ -12,6 +12,12 @@
                <show id="alvexdt:signingDate" />
                <show id="alvexdt:expiryDate" />
             </field-visibility>
+            <appearance>
+               <field id="alvexdt:id" isSortKey="true" />
+               <field id="alvexdt:relatedDocuments">
+                  <control template="Alvex.DatagridRecordRenderer"/>
+               </field>
+            </appearance>
          </form>
          <form>
             <field-visibility>
@@ -42,7 +48,8 @@
                <set id="renew"/>
                <set id="summary" appearance="" label="" />
                <set id="files" appearance="" label=""/>
-               <set id="related" appearance="" label="" template="/org/alfresco/components/form/2-column-set.ftl"/>
+               <set id="related" appearance="" label="" />
+               <set id="location"/>
                <field set="id" id="alvexdt:id">
                   <control template="/alvex-auto-numberer.ftl"/>
                </field>
@@ -90,11 +97,11 @@
                      <control-param name="viewType">mini</control-param>
                   </control>
                </field>
-               <field set="related" id="alvexdt:relatedDocuments"/>
-               <field set="related" id="alvexdt:location">
-                  <control>
-                     <control-param name="style">width: 98%</control-param>
-                  </control>
+               <field set="related" id="alvexdt:relatedDocuments">
+                 <control template="/alvex-docreg-picker.ftl"/>
+               </field>
+               <field set="location" id="alvexdt:location">
+                <control template="/share-site-picker.ftl"/>
                </field>
             </appearance>
          </form>
@@ -132,7 +139,8 @@
                <set id="renew"/>
                <set id="summary" appearance="" label="" />
                <set id="files" appearance="" label=""/>
-               <set id="related" appearance="" label="" template="/org/alfresco/components/form/2-column-set.ftl"/>
+               <set id="related" appearance="" label="" />
+               <set id="location"/>
                <field set="id" id="alvexdt:id">
                   <control template="/alvex-auto-numberer.ftl"/>
                </field>
@@ -172,11 +180,11 @@
                      <control-param name="viewType">mini</control-param>
                   </control>
                </field>
-               <field set="related" id="alvexdt:relatedDocuments"/>
-               <field set="related" id="alvexdt:location">
-                  <control>
-                     <control-param name="style">width: 98%</control-param>
-                  </control>
+               <field set="related" id="alvexdt:relatedDocuments">
+                 <control template="/alvex-docreg-picker.ftl"/>
+               </field>
+               <field set="location" id="alvexdt:location">
+                <control template="/share-site-picker.ftl"/>
                </field>
             </appearance>
          </form>
