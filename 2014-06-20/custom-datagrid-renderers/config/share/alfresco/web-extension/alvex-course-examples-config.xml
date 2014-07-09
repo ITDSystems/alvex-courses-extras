@@ -1,0 +1,200 @@
+<alfresco-config>
+
+   <config>
+      <forms>
+         <dependencies>
+            <js  src="/components/custom/custom-datagrid-renderers.js" />
+         </dependencies>
+      </forms>
+   </config>
+
+   <config evaluator="model-type" condition="alvexcoursedocs:document_partner_agreement">
+      <forms>
+         <form id="datagrid">
+            <field-visibility>
+               <show id="alvexdt:id" />
+               <show id="alvexdt:company" />
+               <show id="alvexdt:contractor" />
+               <show id="alvexcoursedocs:vendorCompanyName" />
+               <show id="alvexcoursedocs:partnerDiscount" />
+               <show id="alvexdt:signingDate" />
+               <show id="alvexdt:expiryDate" />
+            </field-visibility>
+            <appearance>
+               <field id="alvexcoursedocs:partnerDiscount" isSortKey="true">
+                  <control template="MyCustomRenderer"/>
+               </field>
+            </appearance>
+         </form>
+         <form>
+            <field-visibility>
+               <show id="alvexdt:id" />
+               <show id="alvexdt:registerDate" />
+               <show id="alvexdt:company" />
+               <show id="alvexdt:agreementType" />
+               <show id="alvexdt:agreementSummary" />
+               <show id="alvexdt:contractor" />
+               <show id="alvexdt:relatedDocuments" />
+               <show id="alvexcoursedocs:contractManager" />
+               <show id="alvexcoursedocs:vendorCompanyName" />
+               <show id="alvexcoursedocs:vendorWebSite" />
+               <show id="alvexcoursedocs:partnerDiscount" />
+               <show id="alvexdt:signingDate" />
+               <show id="alvexdt:expiryDate" />
+               <show id="alvexdt:signatory" />
+               <show id="alvexdt:renew" />
+               <show id="alvexdt:location" />
+               <show id="alvexdt:files" />
+            </field-visibility>
+            <create-form template="/alvex-form.ftl" />
+            <appearance>
+               <set id="id" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
+               <set id="company" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
+               <set id="vendor" appearance="" label="" template="/org/alfresco/components/form/2-column-set.ftl"/>
+               <set id="date" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
+               <set id="renew"/>
+               <set id="summary" appearance="" label="" />
+               <set id="files" appearance="" label=""/>
+               <set id="related" appearance="" label="" template="/org/alfresco/components/form/2-column-set.ftl"/>
+               <field set="id" id="alvexdt:id">
+                  <control template="/alvex-auto-numberer.ftl"/>
+               </field>
+               <field set="id" id="alvexdt:registerDate">
+                  <control template="/alvex-autodate.ftl"/>
+               </field>
+               <field set="id" id="alvexdt:agreementType">
+                  <control template="/alvex-masterData-select.ftl"/>
+               </field>
+               <field set="company" id="alvexdt:company">
+                  <control template="/alvex-masterData-select.ftl"/>
+               </field>
+               <field set="company" id="alvexdt:contractor">
+                  <control template="/alvex-masterData-select.ftl"/>
+               </field>
+               <field set="company" id="alvexcoursedocs:contractManager">
+                  <control template="/orgchart-picker.ftl" />
+               </field>
+               <field set="vendor" id="alvexcoursedocs:vendorCompanyName" >
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl">
+                     <control-param name="style">width: 98%</control-param>
+                  </control>
+               </field>
+               <field set="vendor" id="alvexcoursedocs:vendorWebSite" >
+                  <control template="/org/alfresco/components/form/controls/textfield.ftl">
+                     <control-param name="style">width: 98%</control-param>
+                  </control>
+               </field>
+               <field set="vendor" id="alvexcoursedocs:partnerDiscount" />
+               <field set="date" id="alvexdt:signingDate"/>
+               <field set="date" id="alvexdt:expiryDate"/>
+               <field set="date" id="alvexdt:signatory">
+                  <control template="/orgchart-picker.ftl" />
+               </field>
+               <field set="renew" id="alvexdt:renew"/>
+               <field set="summary" id="alvexdt:agreementSummary">
+                  <control template="/alvex-mltext.ftl">
+                     <control-param name="style">width: 98%</control-param>
+                  </control>
+               </field>
+               <field set="files" id="alvexdt:files">
+                  <control template="/alvex-uploader.ftl">
+                     <control-param name="uploadDirectory">uploads</control-param>
+                     <control-param name="createUploadDirectory">true</control-param>
+                     <control-param name="viewType">mini</control-param>
+                  </control>
+               </field>
+               <field set="related" id="alvexdt:relatedDocuments"/>
+               <field set="related" id="alvexdt:location">
+                  <control>
+                     <control-param name="style">width: 98%</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+   <config evaluator="node-type" condition="alvexcoursedocs:document_partner_agreement">
+      <forms>
+         <form>
+            <field-visibility>
+               <show id="alvexdt:id" />
+               <show id="alvexdt:registerDate" />
+               <show id="alvexdt:company" />
+               <show id="alvexdt:agreementType" />
+               <show id="alvexdt:agreementSummary" />
+               <show id="alvexdt:contractor" />
+               <show id="alvexdt:relatedDocuments" />
+               <show id="alvexcoursedocs:contractManager" />
+               <show id="alvexcoursedocs:vendorCompanyName" />
+               <show id="alvexcoursedocs:vendorWebSite" />
+               <show id="alvexcoursedocs:partnerDiscount" />
+               <show id="alvexdt:signingDate" />
+               <show id="alvexdt:expiryDate" />
+               <show id="alvexdt:signatory" />
+               <show id="alvexdt:renew" />
+               <show id="alvexdt:location" />
+               <show id="alvexdt:files" />
+            </field-visibility>
+            <view-form template="/alvex-form.ftl" />
+            <edit-form template="/alvex-form.ftl" />
+            <appearance>
+               <set id="id" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
+               <set id="company" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
+               <set id="vendor" appearance="" label="" template="/org/alfresco/components/form/2-column-set.ftl"/>
+               <set id="date" appearance="" label="" template="/org/alfresco/components/form/3-column-set.ftl"/>
+               <set id="renew"/>
+               <set id="summary" appearance="" label="" />
+               <set id="files" appearance="" label=""/>
+               <set id="related" appearance="" label="" template="/org/alfresco/components/form/2-column-set.ftl"/>
+               <field set="id" id="alvexdt:id">
+                  <control template="/alvex-auto-numberer.ftl"/>
+               </field>
+               <field set="id" id="alvexdt:registerDate">
+                  <control template="/alvex-autodate.ftl"/>
+               </field>
+               <field set="id" id="alvexdt:agreementType">
+                  <control template="/alvex-masterData-select.ftl"/>
+               </field>
+               <field set="company" id="alvexdt:company">
+                  <control template="/alvex-masterData-select.ftl"/>
+               </field>
+               <field set="company" id="alvexdt:contractor">
+                  <control template="/alvex-masterData-select.ftl"/>
+               </field>
+               <field set="company" id="alvexcoursedocs:contractManager">
+                  <control template="/orgchart-picker.ftl" />
+               </field>
+               <field set="vendor" id="alvexcoursedocs:vendorCompanyName" />
+               <field set="vendor" id="alvexcoursedocs:vendorWebSite" />
+               <field set="vendor" id="alvexcoursedocs:partnerDiscount" />
+               <field set="date" id="alvexdt:signingDate"/>
+               <field set="date" id="alvexdt:expiryDate"/>
+               <field set="date" id="alvexdt:signatory">
+                  <control template="/orgchart-picker.ftl" />
+               </field>
+               <field set="renew" id="alvexdt:renew"/>
+               <field set="summary" id="alvexdt:agreementSummary">
+                  <control template="/alvex-mltext.ftl">
+                     <control-param name="style">width: 98%</control-param>
+                  </control>
+               </field>
+               <field set="files" id="alvexdt:files">
+                  <control template="/alvex-uploader.ftl">
+                     <control-param name="uploadDirectory">uploads</control-param>
+                     <control-param name="createUploadDirectory">true</control-param>
+                     <control-param name="viewType">mini</control-param>
+                  </control>
+               </field>
+               <field set="related" id="alvexdt:relatedDocuments"/>
+               <field set="related" id="alvexdt:location">
+                  <control>
+                     <control-param name="style">width: 98%</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+
+</alfresco-config>
