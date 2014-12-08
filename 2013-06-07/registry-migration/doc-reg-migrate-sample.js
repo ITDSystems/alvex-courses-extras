@@ -9,9 +9,12 @@ var cont = site.getContainer('dataLists');
 //  print( list.properties.title );
 
 // Get source and destination registry
-var srcList = cont.children[2];
-var dstList = cont.children[1];
 
+var resultsList = search.luceneSearch('PARENT:"' + cont.nodeRef + '" AND @cm\:name:"Title of the source list"');
+var srcList = resultsList[0];
+var resultsList = search.luceneSearch('PARENT:"' + cont.nodeRef + '" AND @cm\:name:"Title of the destination list"');
+var dstList = resultsList[0];
+ 
 print( "Source: " + srcList.properties.title );
 print( "Dest: " + dstList.properties.title );
 
