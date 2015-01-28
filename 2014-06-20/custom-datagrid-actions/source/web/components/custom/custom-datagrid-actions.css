@@ -1,0 +1,9 @@
+.datagrid .onActionPermissions a
+{
+   background-image: url(/share/res/components/documentlibrary/actions/document-manage-permissions-16.png);
+}
+
+.datagrid .onActionComplete a
+{
+   background-image: url(/share/res/components/images/complete-16.png);
+}

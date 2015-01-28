@@ -1,0 +1,14 @@
+<extension>
+  <modules>
+    <module>
+      <id>My Datagrid Actions</id>
+      <customizations>
+        <customization>
+          <targetPackageRoot>documents-registers</targetPackageRoot>
+          <sourcePackageRoot>custom.documents-registers</sourcePackageRoot>
+        </customization>
+      </customizations>
+      <auto-deploy>true</auto-deploy>
+    </module>
+  </modules>
+</extension>

@@ -1,0 +1,12 @@
+<alfresco-config>
+
+   <config>
+      <forms>
+         <dependencies>
+            <js  src="/components/custom/custom-datagrid-actions.js" />
+            <css src="/components/custom/custom-datagrid-actions.css" />
+         </dependencies>
+      </forms>
+   </config>
+
+</alfresco-config>
