@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<alfresco-config>
+
+	<config evaluator="string-compare" condition="activiti$alvex-tutorial-workflow">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="bpm:workflowDescription" />
+					<show id="bpm:workflowDueDate" />
+					<show id="bpm:assignees"/>
+					<show id="atw20:contractor"/>
+					<show id="packageItems"/>
+				</field-visibility>
+				<appearance>
+					<set id="info" appearance="title" label-id="alvex-tutorial-workflow.title.info" template="/org/alfresco/components/form/2-column-set.ftl"/>
+					<set id="document" appearance="title" label-id="alvex-tutorial-workflow.title.document"/>
+					<field id="bpm:workflowDescription" label-id="alvex-tutorial-workflow.label.description" set="info" mandatory="true" help="">
+						<control template="/org/alfresco/components/form/controls/textfield.ftl">
+							<control-param name="style">width: 98%</control-param>
+						</control>
+					</field>
+					<field id="bpm:workflowDueDate"  set="info"/>
+					<field id="bpm:assignees" label-id="alvex-tutorial-workflow.label.assignees" set="info">
+						<control template="/orgchart-picker.ftl" />
+					</field>
+					<field id="atw20:contractor" set="info" />
+					<field id="packageItems" set="document" mandatory="true" label-id="alvex-tutorial-workflow.label.files">
+						<control template="/alvex-uploader.ftl">
+							<control-param name="uploadDirectory">uploads</control-param>
+							<control-param name="createUploadDirectory">true</control-param>
+							<control-param name="withoutRegistries">true</control-param>
+						</control>
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<config evaluator="task-type" condition="atw20:startTask">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="bpm:workflowDescription" />
+					<show id="bpm:workflowDueDate" />
+					<show id="bpm:assignees"/>
+					<show id="atw20:contractor"/>
+					<show id="packageItems"/>
+				</field-visibility>
+				<appearance>
+					<set id="info" appearance="title" label-id="alvex-tutorial-workflow.title.info" template="/org/alfresco/components/form/2-column-set.ftl"/>
+					<set id="document" appearance="title" label-id="alvex-tutorial-workflow.title.document"/>
+					<field id="bpm:workflowDescription" label-id="alvex-tutorial-workflow.label.description" set="info" mandatory="true" help="">
+						<control template="/org/alfresco/components/form/controls/textfield.ftl">
+							<control-param name="style">width: 98%</control-param>
+						</control>
+					</field>
+					<field id="bpm:workflowDueDate"  set="info"/>
+					<field id="bpm:assignees" label-id="alvex-tutorial-workflow.label.assignees" set="info">
+						<control template="/orgchart-picker.ftl" />
+					</field>
+					<field id="atw20:contractor" set="info" />
+					<field id="packageItems" set="document" mandatory="true" label-id="alvex-tutorial-workflow.label.files">
+						<control template="/alvex-uploader.ftl">
+							<control-param name="uploadDirectory">uploads</control-param>
+							<control-param name="createUploadDirectory">true</control-param>
+							<control-param name="withoutRegistries">true</control-param>
+						</control>
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<config evaluator="task-type" condition="atw20:reviewTask">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="bpm:dueDate" />
+					<show id="atw20:initiator" />
+					<show id="atw20:contractor"/>
+					<show id="packageItems"/>
+					<show id="bpm:comment"/>
+					<show id="atw20:reviewOutcome"/>
+				</field-visibility>
+				<appearance>
+					<set id="info" appearance="" label-id="alvex-tutorial-workflow.title.assignees" template="/org/alfresco/components/form/2-column-set.ftl"/>
+					<set id="comment" />
+					<set id="document" appearance="title" label-id="alvex-tutorial-workflow.title.document"/>
+					<set id="response" appearance="title" label-id="alvex-tutorial-workflow.title.response"/>
+					<field id="bpm:dueDate"  set="info" read-only="true"/>
+					<field id="atw20:initiator" label-id="alvex-tutorial-workflow.label.initiator" set="info" read-only="true"/>
+					<field id="atw20:contractor" set="comment" read-only="true" />
+					<field id="packageItems" set="document" label-id="alvex-tutorial-workflow.label.files">
+						<control template="/alvex-uploader.ftl">
+							<control-param name="uploadDirectory">uploads</control-param>
+							<control-param name="createUploadDirectory">true</control-param>
+							<control-param name="withoutRegistries">true</control-param>
+						</control>
+					</field>
+					<field id="bpm:comment" label-id="alvex-tutorial-workflow.label.comment" set="response">
+						<control template="/org/alfresco/components/form/controls/textarea.ftl">
+							<control-param name="style">width: 98%</control-param>
+						</control>
+					</field>
+					<field id="atw20:reviewOutcome" set="response">
+						<control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<config evaluator="task-type" condition="atw20:reviseTask">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="packageItems"/>
+					<show id="atw20:comments" />
+					<show id="bpm:assignees"/>
+					<show id="bpm:comment"/>
+					<show id="atw20:reviseOutcome"/>
+				</field-visibility>
+				<appearance>
+					<set id="document" appearance="title" label-id="alvex-tutorial-workflow.title.document"/>
+					<set id="response" appearance="title" label-id="alvex-tutorial-workflow.title.response" template="/org/alfresco/components/form/2-column-set.ftl"/>
+					<field id="packageItems" set="document" label-id="alvex-tutorial-workflow.label.files">
+					<control template="/alvex-uploader.ftl">
+							<control-param name="uploadDirectory">uploads</control-param>
+							<control-param name="createUploadDirectory">true</control-param>
+							<control-param name="withoutRegistries">true</control-param>
+						</control>
+					</field>
+					<field id="atw20:comments" set="document" label-id="alvex-tutorial-workflow.label.review-summary">
+						<control template="/review-summary.ftl" />
+					</field>
+					<field id="bpm:assignees" label-id="alvex-tutorial-workflow.label.assignees" set="response">
+						<control template="/orgchart-picker.ftl" />
+					</field>
+					<field id="bpm:comment" label-id="alvex-tutorial-workflow.label.comment" set="response">
+						<control template="/org/alfresco/components/form/controls/textarea.ftl">
+							<control-param name="style">width: 98%</control-param>
+						</control>
+					</field>
+					<field id="atw20:reviseOutcome" set="response">
+						<control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<config evaluator="task-type" condition="atw20:approvedTask">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="atw20:contractor"/>
+					<show id="atw20:office"/>
+					<show id="packageItems"/>
+					<show id="atw20:comments" />
+					<show id="atw20:approvedOutcome"/>
+				</field-visibility>
+				<appearance>
+					<set id="contractor" />
+					<set id="document" appearance="title" label-id="alvex-tutorial-workflow.title.document"/>
+					<set id="office"/>
+					<set id="response"/>
+					<field id="atw20:contractor" set="contractor" read-only="true"/>
+					<field id="packageItems" set="document" label-id="alvex-tutorial-workflow.label.files">
+						<control template="/alvex-uploader.ftl">
+							<control-param name="uploadDirectory">uploads</control-param>
+							<control-param name="createUploadDirectory">true</control-param>
+							<control-param name="withoutRegistries">true</control-param>
+						</control>
+					</field>
+					<field id="atw20:comments" set="document" label-id="alvex-tutorial-workflow.label.review-summary">
+						<control template="/review-summary.ftl" />
+					</field>
+					<field id="atw20:office" set="office" label-id="alvex-tutorial-workflow.label.office" mandatory="true">
+						<control template="/office-site-chooser.ftl"/>
+					</field>
+					<field id="atw20:approvedOutcome" set="response">
+						<control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+	
+	<config evaluator="task-type" condition="atw20:signTask">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="atw20:contractor"/>
+					<show id="packageItems"/>
+					<show id="atw20:signOutcome"/>
+				</field-visibility>
+				<appearance>
+					<set id="contractor"/>
+					<set id="document" appearance="title" label-id="alvex-tutorial-workflow.title.document"/>
+					<set id="response"/>
+					<field id="atw20:contractor" set="contractor" read-only="true"/>
+					<field id="packageItems" set="document" label-id="alvex-tutorial-workflow.label.files">
+						<control template="/alvex-uploader.ftl">
+							<control-param name="uploadDirectory">uploads</control-param>
+							<control-param name="createUploadDirectory">true</control-param>
+						</control>
+					</field>
+					<field id="atw20:signOutcome" set="response">
+						<control template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+</alfresco-config>

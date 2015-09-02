@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+<beans>
+	<bean id="alvex-tutorial-workflow-wd" parent="workflowDeployer">
+		<!-- Register workflows -->
+		<property name="workflowDefinitions">
+			<list>
+				<props>
+					<prop key="engineId">activiti</prop>
+					<prop key="location">alfresco/extension/workflows/alvex-tutorial-workflow.bpmn20.xml</prop>
+					<prop key="mimetype">text/xml</prop>
+					<prop key="redeploy">true</prop>
+				</props>
+			</list>
+		</property>
+		<property name="models">
+			<list>
+				<value>alfresco/extension/models/alvex-tutorial-workflow-task-model.xml</value>
+			</list>
+		</property>
+		<property name="labels">
+			<list>
+				<value>alfresco/extension/messages/alvex-tutorial-workflow</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="alvex-tutorial-workflow-permission-manager" parent="alvex-custom-workflows-permission-manager">
+		<property name="matches">
+			<list>
+				<value>task-assign-after-change:.*@alvex-tutorial-workflow</value>
+				<value>task-done:.*@alvex-tutorial-workflow</value>
+				<value>process-start@alvex-tutorial-workflow</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="alvex-tutorial-workflow-permission-manager2" parent="alvex-custom-workflows-permission-manager">
+		<property name="matches">
+			<list>
+				<value>task-assign-after-change:Подписание@alvex-tutorial-workflow</value>
+				<value>task-done:Подписание@alvex-tutorial-workflow</value>
+			</list>
+		</property>
+		<property name="filePermission">
+            <value>read-write</value>
+        </property>
+	</bean>
+	<bean id="alvex-tutorial-workflow-delegations-manager" parent="alvex-orgchart-delegations-manager">
+		<property name="matches">
+			<list>
+				<value>task-assign-change:.*@alvex-tutorial-workflow</value>
+				<value>task-done:.*@alvex-tutorial-workflow</value>
+				<value>process-start@alvex-tutorial-workflow</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="alvex-tutorial-workflow-lock" 
+		class="com.alvexcore.repo.workflow.activiti.WorkflowLockManager"
+		parent="alvex-activiti-connector-activiti-listener">
+		<property name="matches">
+			<list>
+				<value>task-create:Согласование документа@alvex-tutorial-workflow</value>
+				<!--value>process-end@alvex-tutorial-workflow</value-->
+			</list>
+		</property>
+		<property name="action">
+			<value>LOCK</value>
+		</property>
+	</bean>
+	<bean id="alvex-tutorial-workflow-unlock" 
+		class="com.alvexcore.repo.workflow.activiti.WorkflowLockManager"
+		parent="alvex-activiti-connector-activiti-listener">
+		<property name="matches">
+			<list>
+				<value>task-create:Доработка документа@alvex-tutorial-workflow</value>
+				<value>task-create:Регистрация@alvex-tutorial-workflow</value>
+			</list>
+		</property>
+		<property name="action">
+			<value>UNLOCK</value>
+		</property>
+	</bean>
+</beans>
+

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://alvexcore.com/workflows/alvexwf">
+  <process id="alvex-tutorial-workflow" name="Согласование проекта документа" isExecutable="true">
+    <extensionElements>
+      <activiti:executionListener event="start" class="org.alfresco.repo.workflow.activiti.listener.ScriptExecutionListener">
+        <activiti:field name="script">
+          <activiti:string><![CDATA[execution.setVariable('atw20_reviewerCount', bpm_assignees.size());
+execution.setVariable('atw20_approveCount', 0);
+execution.setVariable('atw20_comments_global', "");
+execution.setVariable('atw20_initiator', initiator);
+execution.setVariable('atw20_contractor', execution.getVariableLocal('atw20_contractor'));]]></activiti:string>
+        </activiti:field>
+      </activiti:executionListener>
+    </extensionElements>
+    <startEvent id="startevent1" name="Start" activiti:formKey="atw20:startTask"></startEvent>
+    <userTask id="usertask2" name="Review" activiti:assignee="${reviewer.properties.userName}" activiti:formKey="atw20:reviewTask">
+      <extensionElements>
+        <activiti:taskListener event="complete" class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
+          <activiti:field name="script">
+            <activiti:string><![CDATA[if(task.getVariableLocal('atw20_reviewOutcome') == 'Approve') {
+	var newApprovedCount = atw20_approveCount + 1;
+	execution.setVariable('atw20_approveCount', newApprovedCount);
+}
+var userName = reviewer.properties.firstName + ' ' + reviewer.properties.lastName;
+var comments = execution.getVariable('atw20_comments_global');
+var new_comment = new String( task.getVariableLocal('bpm_comment') ); 
+comments += ",{" + userName + "|" 
+			+ task.getVariableLocal('atw20_reviewOutcome') 
+			+ "|" + new_comment + "}";
+execution.setVariable('atw20_comments_global', comments);]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+        <activiti:taskListener event="create" class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
+          <activiti:field name="script">
+            <activiti:string><![CDATA[if (bpm_workflowPriority != undefined)
+	task.priority = bpm_workflowPriority;
+if (bpm_workflowDueDate != undefined)
+	task.dueDate = bpm_workflowDueDate;]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${bpm_assignees}" activiti:elementVariable="reviewer"></multiInstanceLoopCharacteristics>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <userTask id="usertask3" name="Registration" activiti:assignee="${initiator.properties.userName}" activiti:formKey="atw20:approvedTask">
+      <extensionElements>
+        <activiti:taskListener event="create" class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
+          <activiti:field name="script">
+            <activiti:string><![CDATA[task.setVariableLocal('atw20_comments',  execution.getVariable('atw20_comments_global'));]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+        <activiti:taskListener event="complete" class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
+          <activiti:field name="script">
+            <activiti:string><![CDATA[var office = task.getVariableLocal('atw20_office');
+var site = siteService.getSite(office);
+var cont = site.getContainer('dataLists');
+var list = cont.children[0];
+
+var node = list.createNode(null, "alvexdt:agreement");
+
+//autonumbering
+node.properties["alvexdt:id"] = alvexRegistriesService.suggestNextNumber(list);
+list.properties["alvexdr:inc"] = list.properties["alvexdr:inc"]+1;
+list.properties["alvexdr:dayInc"] = list.properties["alvexdr:dayInc"]+1;
+list.properties["alvexdr:monthInc"] = list.properties["alvexdr:monthInc"]+1;
+list.properties["alvexdr:yearInc"] = list.properties["alvexdr:yearInc"]+1;
+list.properties["alvexdr:quarterInc"] = list.properties["alvexdr:quarterInc"]+1;
+list.save();
+
+//date
+var currentDate = new Date(); 
+node.properties["alvexdt:registerDate"] = currentDate; 
+
+//contractor
+node.properties["alvexdt:contractor"] = execution.getVariableLocal('atw20_contractor');
+
+//signed
+node.properties["alvexdt:ifsigned"] = false; 
+
+node.save();
+
+// signatory
+units = orgchart.getBranches();
+unit = units[0];
+role = unit.getRole("Генеральный директор");
+users = role.getAssignees();
+user = users[0];
+userName = user.getUserName();
+alfUser = people.getPerson(userName);
+node.createAssociation(alfUser,"alvexdt:signatory");
+
+// files
+for each(document in bpm_package.children)
+  node.createAssociation(document,"alvexdt:files");
+
+// create execution.variable
+
+execution.setVariable('nodeRef', node.nodeRef.toString());]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask4" name="Revise" activiti:assignee="${initiator.properties.userName}" activiti:formKey="atw20:reviseTask">
+      <extensionElements>
+        <activiti:taskListener event="create" class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
+          <activiti:field name="script">
+            <activiti:string><![CDATA[task.setVariableLocal('atw20_comments',  execution.getVariable('atw20_comments_global'));]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow3" sourceRef="usertask2" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="usertask4">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${atw20_approveCount < atw20_reviewerCount}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow6" sourceRef="usertask4" targetRef="usertask2">
+      <extensionElements>
+        <activiti:executionListener event="take" class="org.alfresco.repo.workflow.activiti.listener.ScriptExecutionListener">
+          <activiti:field name="script">
+            <activiti:string><![CDATA[execution.setVariable('atw20_comments_global',  "");
+execution.setVariable('atw20_approveCount', 0);]]></activiti:string>
+          </activiti:field>
+        </activiti:executionListener>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="flow12" sourceRef="usertask3" targetRef="usertask5"></sequenceFlow>
+    <userTask id="usertask5" name="Sign" activiti:assignee="{0}::Генеральный директор[0]" activiti:formKey="atw20:signTask">
+      <extensionElements>
+        <activiti:taskListener event="complete" class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
+          <activiti:field name="script">
+            <activiti:string><![CDATA[node = search.findNode(execution.getVariableLocal('nodeRef'));
+
+var currentDate = new Date(); 
+node.properties["alvexdt:signingDate"] = currentDate; 
+node.properties["alvexdt:ifsigned"] = true; 
+node.save();]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow13" sourceRef="usertask5" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow14" sourceRef="exclusivegateway1" targetRef="usertask3"></sequenceFlow>
+    <sequenceFlow id="flow15" sourceRef="startevent1" targetRef="usertask2"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_alvex-tutorial-workflow">
+    <bpmndi:BPMNPlane bpmnElement="alvex-tutorial-workflow" id="BPMNPlane_alvex-tutorial-workflow">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="45.0" width="45.0" x="190.0" y="208.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="75.0" width="160.0" x="335.0" y="193.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="520.0" y="210.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
+        <omgdc:Bounds height="75.0" width="160.0" x="600.0" y="193.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
+        <omgdc:Bounds height="75.0" width="160.0" x="335.0" y="77.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="45.0" width="45.0" x="1060.0" y="208.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask5" id="BPMNShape_usertask5">
+        <omgdc:Bounds height="75.0" width="160.0" x="820.0" y="193.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="495.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="520.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="540.0" y="210.0"></omgdi:waypoint>
+        <omgdi:waypoint x="538.0" y="113.0"></omgdi:waypoint>
+        <omgdi:waypoint x="495.0" y="114.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="415.0" y="152.0"></omgdi:waypoint>
+        <omgdi:waypoint x="415.0" y="193.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="760.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="820.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="980.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1060.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="560.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="235.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="335.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
