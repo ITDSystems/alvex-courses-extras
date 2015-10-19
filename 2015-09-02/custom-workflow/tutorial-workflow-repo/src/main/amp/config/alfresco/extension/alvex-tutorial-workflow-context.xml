@@ -36,8 +36,8 @@
 	<bean id="alvex-tutorial-workflow-permission-manager2" parent="alvex-custom-workflows-permission-manager">
 		<property name="matches">
 			<list>
-				<value>task-assign-after-change:Подписание@alvex-tutorial-workflow</value>
-				<value>task-done:Подписание@alvex-tutorial-workflow</value>
+				<value>task-assign-after-change:Sign@alvex-tutorial-workflow</value>
+				<value>task-done:Sign@alvex-tutorial-workflow</value>
 			</list>
 		</property>
 		<property name="filePermission">
@@ -58,7 +58,7 @@
 		parent="alvex-activiti-connector-activiti-listener">
 		<property name="matches">
 			<list>
-				<value>task-create:Согласование документа@alvex-tutorial-workflow</value>
+				<value>task-create:Review@alvex-tutorial-workflow</value>
 				<!--value>process-end@alvex-tutorial-workflow</value-->
 			</list>
 		</property>
@@ -71,8 +71,8 @@
 		parent="alvex-activiti-connector-activiti-listener">
 		<property name="matches">
 			<list>
-				<value>task-create:Доработка документа@alvex-tutorial-workflow</value>
-				<value>task-create:Регистрация@alvex-tutorial-workflow</value>
+				<value>task-create:Revise@alvex-tutorial-workflow</value>
+				<value>task-create:Registration@alvex-tutorial-workflow</value>
 			</list>
 		</property>
 		<property name="action">
