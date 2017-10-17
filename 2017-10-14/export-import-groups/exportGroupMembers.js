@@ -14,33 +14,33 @@ var groupCollection = groups.getGroups("", paging);
 
 var output = "";
 for (var i = 0; i < groupCollection.length; i++) {
-  var group = groupCollection[i];
-  var node = people.getGroup("GROUP_" + group.shortName);
-  if (createIfNotExist == true) {
-    output += ("var group = people.getGroup('GROUP_" + group.shortName + "');\n");
-    output += ("if (!group) {\n");
-    output += (" group = people.createGroup('" + group.shortName + "');\n");
-    output += ("}\n");
-  }
-  var members = people.getMembers(node);
-  if (members.length != 0) {
-    output += ("var group = people.getGroup('GROUP_" + group.shortName + "');\n");
-    output += ("if (group) {\n");
-	output += (" var members = people.getMembers(group);\n");
-    for (var j = 0; j < members.length; j++) {
-	  output += (" var isMember = false;\n");
-	  output += (" members.forEach(function(member) {\n");
-	  output += ("  if (member.properties['userName'] == '" + members[j].properties["cm:userName"] + "') {\n");
-	  output += ("   isMember = true;\n");
-	  output += ("  };\n");
-	  output += (" });\n");
-	  output += (" if (isMember == false) {\n");
-      output += ("  var user = people.getPerson('" + members[j].properties["cm:userName"] + "');\n");
-      output += ("  try {\n   people.addAuthority(group, user);\n  }\n  catch (ex)\n  {\n   print('ABORT: Exception occurred: '+ex);\n  }\n");
-	  output += (" }\n");
+    var group = groupCollection[i];
+    var node = people.getGroup("GROUP_" + group.shortName);
+    if (createIfNotExist == true) {
+        output += ("var group = people.getGroup('GROUP_" + group.shortName + "');\n");
+        output += ("if (!group) {\n");
+        output += (" group = people.createGroup('" + group.shortName + "');\n");
+        output += ("}\n");
     }
-    output += ("}\n");
-  }
+    var members = people.getMembers(node);
+    if (members.length != 0) {
+        output += ("var group = people.getGroup('GROUP_" + group.shortName + "');\n");
+        output += ("if (group) {\n");
+        output += (" var members = people.getMembers(group);\n");
+        for (var j = 0; j < members.length; j++) {
+            output += (" var isMember = false;\n");
+            output += (" members.forEach(function(member) {\n");
+            output += ("  if (member.properties['userName'] == '" + members[j].properties["cm:userName"] + "') {\n");
+            output += ("   isMember = true;\n");
+            output += ("  };\n");
+            output += (" });\n");
+            output += (" if (isMember == false) {\n");
+            output += ("  var user = people.getPerson('" + members[j].properties["cm:userName"] + "');\n");
+            output += ("  try {\n   people.addAuthority(group, user);\n  }\n  catch (ex)\n  {\n   print('ABORT: Exception occurred: '+ex);\n  }\n");
+            output += (" }\n");
+        }
+        output += ("}\n");
+    }
 }
 
 var article = companyhome.createNode("createGroups.js", "cm:content");
